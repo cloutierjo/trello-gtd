@@ -1,0 +1,19 @@
+{
+  "name": "trello-gtd",
+  "version": "1.0.0",
+  "description": "Give quick access to trello for GTD usage",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": "https://github.com/cloutierjo/trello-gtd",
+  "keywords": [
+    "Trello",
+    "GTD"
+  ],
+  "author": "Jonatan Cloutier",
+  "license": "GPL v3",
+  "devDependencies": {
+    "electron": "~1.6.2"
+  }
+}
