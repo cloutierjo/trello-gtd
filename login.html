@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Trello GTD</title>
+  </head>
+  <body>
+  
+    <script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+    <script src="https://api.trello.com/1/client.js?key=e905d78fbbc1ee59156b8b12f35b6776"></script>
+    <script>
+        var authenticationSuccess = function() {
+            console.log('Successful authentication');
+            window.close();
+        };
+
+        var authenticationFailure = function() {
+            console.log('Failed authentication');
+            window.close();
+        };
+
+        Trello.authorize({
+            type: 'popup',
+            name: 'trello-gtd',
+            scope: {
+                read: 'true',
+                write: 'true' },
+            expiration: 'never',
+            success: authenticationSuccess,
+            error: authenticationFailure
+        });
+    </script>
+  </body>
+</html>

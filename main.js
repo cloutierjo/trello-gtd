@@ -12,26 +12,51 @@ const url = require('url')
 let mainWindow
 
 function createWindow () {
-  // Create the browser window.
-  mainWindow = new BrowserWindow({width: 800, height: 600})
+    electron.ipcMain.on('login-required', (event, arg) => {
+        // Create the browser window.
+        loginWindow = new BrowserWindow({width: 1, height: 1, frame: false, transparent: true, webPreferences: {nodeIntegration: false}});
 
-  // and load the index.html of the app.
-  mainWindow.loadURL(url.format({
-    pathname: path.join(__dirname, 'index.html'),
-    protocol: 'file:',
-    slashes: true
-  }))
+        // and load the index.html of the app.
+        loginWindow.loadURL(url.format({
+            pathname: path.join(__dirname, 'login.html'),
+            protocol: 'file:',
+            slashes: true
+        }));
 
-  // Open the DevTools.
-  // mainWindow.webContents.openDevTools()
+        // Open the DevTools.
+        loginWindow.webContents.openDevTools();
 
-  // Emitted when the window is closed.
-  mainWindow.on('closed', function () {
-    // Dereference the window object, usually you would store windows
-    // in an array if your app supports multi windows, this is the time
-    // when you should delete the corresponding element.
-    mainWindow = null
-  })
+        // Emitted when the window is closed.
+        loginWindow.on('closed', function () {
+            // Dereference the window object, usually you would store windows
+            // in an array if your app supports multi windows, this is the time
+            // when you should delete the corresponding element.
+            loginWindow = null
+            
+            event.sender.send('login-completed', '')
+        });
+    });    
+    
+    mainWindow = new BrowserWindow({width: 800, height: 600});
+
+    // and load the index.html of the app.
+    mainWindow.loadURL(url.format({
+        pathname: path.join(__dirname, 'index.html'),
+        protocol: 'file:',
+        slashes: true
+    }))
+
+    // Open the DevTools.
+    mainWindow.webContents.openDevTools()
+
+    // Emitted when the window is closed.
+    mainWindow.on('closed', function () {
+        // Dereference the window object, usually you would store windows
+        // in an array if your app supports multi windows, this is the time
+        // when you should delete the corresponding element.
+        mainWindow = null
+        app.quit()
+    })
 }
 
 // This method will be called when Electron has finished
