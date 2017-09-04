@@ -6,6 +6,24 @@
   </head>
   <body>
   
+    <div id="login">
+        Login required
+    </div>
+  
+    <div id="mainView" style="display: none;">
+        <label>New Card: <input name="cardTitle" /></label>
+        <label>Board: 
+            <select id="new-board">
+            </select>
+        </label>
+        <label>Column: 
+            <select id="new-column">
+            </select>
+        </label>
+        <input id="newCardSubmit" type="submit" value="Add">
+    </div>
+  
+  
     <script>window.$ = window.jQuery = require('jquery');</script>
     <script src="https://api.trello.com/1/client.js?key=e905d78fbbc1ee59156b8b12f35b6776"></script>
   </body>
