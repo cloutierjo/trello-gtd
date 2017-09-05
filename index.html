@@ -11,16 +11,32 @@
     </div>
   
     <div id="mainView" style="display: none;">
-        <label>New Card: <input name="cardTitle" /></label>
-        <label>Board: 
-            <select id="new-board">
-            </select>
-        </label>
-        <label>Column: 
-            <select id="new-column">
-            </select>
-        </label>
-        <input id="newCardSubmit" type="submit" value="Add">
+        <form id="newCardForm">
+            <label>New Card: <input id="cardTitle" name="cardTitle" /></label>
+            <label>Board: 
+                <select id="new-board">
+                </select>
+            </label>
+            <label>Column: 
+                <select id="new-column">
+                </select>
+            </label>
+            <input id="newCardSubmit" type="submit" value="Add">
+        </form>
+        
+        <div>
+            <label>Board: 
+                <select id="todo-board">
+                </select>
+            </label>
+            <label>Column: 
+                <select id="todo-column">
+                </select>
+            </label>
+            <ul id="todoList">
+            
+            </ul>
+        </div>
     </div>
   
   

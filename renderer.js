@@ -43,27 +43,74 @@ var listData = [];
 function mainView_init(){
     $('#login').hide();
     $('#mainView').show();
+    $('#newCardForm').submit(event => {
+        cardTitle = $('#cardTitle').val();
+        listId = $('#new-column').val();
+        Trello.post('/cards/', {
+            name: cardTitle, 
+            idList: listId,
+            pos: 'bottom'
+        });
+        event.preventDefault();
+        $('#cardTitle').val("");
+    });
 
-    function updateBoardsNList(data){
+    function updateBoardsAndList(data){
         data.forEach(board => {
             $('#new-board').append($('<option>').attr("value",board.id).text(board.name));
+            $('#todo-board').append($('<option>').attr("value",board.id).text(board.name));
             
             listData=listData.concat(board.lists);
         });
         
-        updateVisibleList()
+        updateNewList();
+        updateTodoList();
     };
-    Trello.get('members/me/boards',{filter:"open",fields:"id,name,starred,prefs,labelNames,dateLastActivity",lists:"open"},updateBoardsNList);
+    Trello.get('members/me/boards', {
+                filter:"open",
+                fields:"id,name,starred,prefs,labelNames,dateLastActivity",
+                lists:"open"
+            }, updateBoardsAndList);
+    
+    $('#new-board').change(updateNewList);
+    $('#todo-board').change(updateTodoList);
+    $('#todo-column').change(updateListCards);
 }
 
-function updateVisibleList(){
-    curBoard = $('#new-board').val();
-        console.log(curBoard);
+function debug(data){
+    console.log(JSON.stringify(data, null, 2));
+}
+
+function updateNewList(){
+    updateVisibleList('new');
+}
+function updateTodoList(){
+    updateVisibleList('todo');
+}
+
+function updateVisibleList(prefix){
+    curBoard = $('#'+prefix+'-board').val();
+    $('#'+prefix+'-column').empty();
     listData.forEach(list => {
-        console.log(JSON.stringify(list));
         if(curBoard==list.idBoard){
-            $('#new-column').append($('<option>').attr("value",list.id).text(list.name));
+            $('#'+prefix+'-column').append($('<option>').attr("value",list.id).text(list.name));
         }
     });
-    
+}
+
+
+function updateListCards(){
+    listId = $('#todo-column').val();
+    updateTodoCards(listId);
+}
+
+function updateTodoCards(listId){
+    Trello.get('lists/'+listId+'/cards',{
+                fields:"id,name"
+            }, datas => {
+                $('#todoList').empty();
+                datas.forEach(data => {
+                    $('#todoList').append($('<li>').data("cardId",data.id).text(data.name));
+                });
+            });
 }
