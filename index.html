@@ -3,6 +3,24 @@
   <head>
     <meta charset="UTF-8">
     <title>Trello GTD</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        .btn.material-icons{
+            font-size: 1.5rem;
+            line-height: .85;
+        }
+        
+        html, body{
+            height: 100%;
+        }
+        
+        body{
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+    </style>
   </head>
   <body>
   
@@ -10,30 +28,48 @@
         Login required
     </div>
   
-    <div id="mainView" style="display: none;">
-        <form id="newCardForm">
-            <label>New Card: <input id="cardTitle" name="cardTitle" /></label>
-            <label>Board: 
-                <select id="new-board">
-                </select>
-            </label>
-            <label>Column: 
-                <select id="new-column">
-                </select>
-            </label>
-            <input id="newCardSubmit" type="submit" value="Add">
-        </form>
+    <div id="mainView" style="display: none;" class="container-fluid mb-3">
+        <div class="row pt-3 pb-1 mb-3 bg-light">
+            <form id="newCardForm" class="col-12">
+                <label class="input-group">
+                    <input id="cardTitle" name="cardTitle" placeholder="New Card Title" class="form-control"/>
+                    <span class="input-group-btn">
+                        <input id="newCardSubmit" class="btn btn-primary" type="submit" value="Add">
+                    </span>
+                    <span class="input-group-btn">
+                        <button class="btn btn-secondary material-icons" type="button" data-toggle="collapse" data-target="#add-config">
+                            settings
+                        </button>
+                    </span>
+                </label>
+                
+                <div id="add-config" class="collapse">
+                    <label class="input-group">
+                        <span class="input-group-addon">Board</span>
+                        <select id="new-board" class="custom-select form-control">
+                        </select>
+                        <span class="input-group-addon">Column</span>
+                        <select id="new-column" class="custom-select form-control">
+                        </select>
+                    </label>
+                </div>
+            </form>
+        </div>
         
-        <div>
-            <label>Board: 
-                <select id="todo-board">
-                </select>
-            </label>
-            <label>Column: 
-                <select id="todo-column">
-                </select>
-            </label>
-            <ul id="todoList">
+        <div class="row">
+            <div class="col">
+                <label class="input-group">
+                    <span class="input-group-addon">Board</span>
+                    <select id="todo-board" class="custom-select form-control">
+                    </select>
+                    <span class="input-group-addon">Column</span>
+                    <select id="todo-column" class="custom-select form-control">
+                    </select>
+                </label>
+            </div>
+        </div>
+        <div class="card w-9">
+            <ul id="todoList" class="list-group list-group-flush">
             
             </ul>
         </div>
@@ -42,6 +78,8 @@
   
     <script>window.$ = window.jQuery = require('jquery');</script>
     <script src="https://api.trello.com/1/client.js?key=e905d78fbbc1ee59156b8b12f35b6776"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
   </body>
 
   <script>require('./renderer.js')</script>
