@@ -1,4 +1,4 @@
-const electron = require('electron')
+const {ipcRenderer} = require('electron')
 
 var authenticationSuccess = function() {
     console.log('Successful authentication');
@@ -7,14 +7,14 @@ var authenticationSuccess = function() {
 
 var authenticationFailure = function() {
     console.log('Failed authentication');
-    electron.ipcRenderer.send('login-required', '');
+    ipcRenderer.send('login-required', '');
 };
 
 var authenticationSecondFailure = function() {
     console.log('Failed authentication');
 };
 
-electron.ipcRenderer.on('login-completed', (event, arg) => {
+ipcRenderer.on('login-completed', (event, arg) => {
     Trello.authorize({
         name: 'trello-gtd',
         interactive: false,
@@ -27,7 +27,7 @@ electron.ipcRenderer.on('login-completed', (event, arg) => {
     });
 });
 
-electron.ipcRenderer.on('focus-add', (event, arg) => {
+ipcRenderer.on('focus-add', (event, arg) => {
     $('#cardTitle').focus();
 })
 
@@ -56,9 +56,10 @@ function mainView_init(){
             name: cardTitle, 
             idList: listId,
             pos: 'bottom'
-        });
+        }, updateListCards);
         event.preventDefault();
         $('#cardTitle').val("");
+        
     });
 
     function updateBoardsAndList(data){
@@ -92,6 +93,7 @@ function mainView_init(){
     $('#new-column').change(updateNewColList);
     $('#todo-board').change(updateTodoList);
     $('#todo-column').change(updateListCards);
+    setInterval(updateListCards, 10000);
 }
 
 function debug(data){
@@ -145,10 +147,12 @@ function updateNewColList(){
     
 }
 function updateListCards(){
-    console.log('updateListCards');
-    listId = $('#todo-column').val();
-    localStorage.setItem('todo-column',listId);
-    updateTodoCards(listId);
+    if(!document.hidden){
+        console.log('updateListCards');
+        listId = $('#todo-column').val();
+        localStorage.setItem('todo-column',listId);
+        updateTodoCards(listId);
+    }
 }
 
 function updateTodoCards(listId){

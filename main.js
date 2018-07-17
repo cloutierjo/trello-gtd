@@ -1,11 +1,11 @@
-const {app, BrowserWindow, globalShortcut, ipcMain} = require('electron')
+const {app, BrowserWindow, globalShortcut, ipcMain} = require('electron');
 
-const path = require('path')
-const url = require('url')
+const path = require('path');
+const url = require('url');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-let mainWindow
+let mainWindow;
 
 function createWindow () {
     ipcMain.on('login-required', (event, arg) => {
@@ -40,7 +40,7 @@ function createWindow () {
         pathname: path.join(__dirname, 'index.html'),
         protocol: 'file:',
         slashes: true
-    }))
+    }));
 
     // Open the DevTools.
     //mainWindow.webContents.openDevTools()
@@ -50,9 +50,14 @@ function createWindow () {
         // Dereference the window object, usually you would store windows
         // in an array if your app supports multi windows, this is the time
         // when you should delete the corresponding element.
-        mainWindow = null
-        app.quit()
-    })
+        mainWindow = null;
+        app.quit();
+    });
+}
+
+function recalWindow(){
+    mainWindow.show();
+    mainWindow.webContents.send('focus-add', '');
 }
 
 // This method will be called when Electron has finished
@@ -61,8 +66,7 @@ function createWindow () {
 app.on('ready', function(){
     createWindow();
     globalShortcut.register('CommandOrControl+Shift+A', () => {
-        mainWindow.show();
-        ipcMain.send('focus-add', '')
+        recalWindow();
     })
 });
 
@@ -73,7 +77,7 @@ app.on('window-all-closed', function () {
   if (process.platform !== 'darwin') {
     app.quit()
   }
-})
+});
 
 app.on('activate', function () {
   // On OS X it's common to re-create a window in the app when the
@@ -81,8 +85,8 @@ app.on('activate', function () {
   if (mainWindow === null) {
     createWindow()
   }
-})
+});
 
 app.on('will-quit', () => {
   globalShortcut.unregisterAll()
-})
+});
